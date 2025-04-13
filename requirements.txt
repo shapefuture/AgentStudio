@@ -7,4 +7,9 @@ PyYAML>=6.0
 praisonaiagents>=0.0.4
 duckduckgo_search
 praisonai_tools
-flask>=2.0.0
+openai>=1.12.0
+langgraph>=0.3.25
+fastapi>=0.68.0
+uvicorn>=0.15.0
+pydantic>=1.8.2
+pytest>=7.0.0

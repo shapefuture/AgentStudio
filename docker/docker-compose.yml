@@ -1,10 +1,15 @@
+version: '3.8'
+
 services:
   ui:
     build:
-      context: .
-      dockerfile: Dockerfile.ui
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        PRAISONAI_EXTRAS: "ui,crewai"
+        DEFAULT_CMD: "ui"
     volumes:
-      - .:/app
+      - ../:/app
     ports:
       - "8082:8082"
     environment:
@@ -19,3 +24,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+
+  chat:
+    build:
+      context: .. 
+      dockerfile: docker/Dockerfile
+      args:
+        PRAISONAI_EXTRAS: "chat"
+        DEFAULT_CMD: "chat"
+    volumes:
+      - ../:/app
+    ports:
+      - "8083:8083"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    depends_on:
+      - ui

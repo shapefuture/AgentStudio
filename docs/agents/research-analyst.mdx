@@ -1,0 +1,52 @@
+framework: praisonai
+topic: Advanced Research Analysis
+description: |
+  A comprehensive research agent that combines web scraping,
+  AI analysis, and data persistence capabilities.
+
+roles:
+  research_analyst:
+    backstory: |
+      Expert analyst capable of gathering web data, processing it through AI models,
+      and storing structured results. Specializes in turning raw data into actionable insights.
+    goal: Produce comprehensive research reports
+    role: Research Analyst
+    tools:
+      - WebScraperTool
+      - OpenRouterAnalysisTool
+      - SupabaseWriteTool
+    tasks:
+      data_collection:
+        description: "Collect data from {urls} about {topic}"
+        expected_output: "Raw dataset in JSON format"
+        tools: [WebScraperTool]
+        
+      data_analysis:
+        description: "Analyze collected data about {topic}"
+        expected_output: "Processed insights in markdown"
+        tools: [OpenRouterAnalysisTool]
+        dependencies: [data_collection]
+        
+      results_storage:
+        description: "Store final analysis in database"
+        expected_output: "Database record ID"
+        tools: [SupabaseWriteTool]
+        dependencies: [data_analysis]
+
+workflow:
+  - data_collection
+  - data_analysis
+  - results_storage
+
+configuration:
+  WebScraperTool:
+    timeout: 30
+    user_agent: "PraisonAI Research Agent"
+    
+  OpenRouterAnalysisTool:
+    model: "gpt-4"
+    temperature: 0.7
+    
+  SupabaseWriteTool:
+    table_name: "research_results"
+    batch_size: 10

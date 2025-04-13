@@ -1,0 +1,38 @@
+# Unified Agent Configuration
+version: 2.0
+
+# Base Configuration (compatible with agents.yaml)
+base:
+  framework: praisonai
+  process: sequential
+  topic: create movie script about cat in mars
+  memory: false
+  roles:
+    researcher:
+      backstory: Skilled in research, with a focus on gathering accurate information
+      goal: Gather information about Mars and cats
+      role: Researcher
+      tasks:
+        research_task:
+          description: Research about Mars environment and cat behavior
+          expected_output: Document with research findings
+
+# Advanced Configuration (extends base)
+advanced:
+  framework: crewai
+  llm_settings:
+    default_model: groq/llama3-70b-8192
+    function_calling_model: google/gemini-1.5-flash-001
+  roles:
+    medical_writer:
+      backstory: Skilled in medical content creation
+      goal: Compile comprehensive medical content
+      llm: anthropic/claude-3-haiku-20240307
+      async_execution: true
+      output_file: output/medical_writer.txt
+
+# Common settings
+common:
+  verbose: true
+  cache: true
+  output_dir: output/

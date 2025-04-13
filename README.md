@@ -54,7 +54,67 @@ PraisonAI is a production-ready Multi-AI Agents framework with self-reflection, 
 - 📄 YAML Configuration
 - 💯 100+ LLM Support
 
+## Project Structure
+
+PraisonAI follows a modular architecture designed for scalability and flexibility:
+
+```
+PraisonAI/
+├── backend/              # Core backend services
+│   └── api.py            # Main FastAPI application
+├── praisonai/            # Core framework
+│   ├── workflow_planner.py # Workflow planning engine
+│   └── agents_generator.py # Agent generation logic
+├── ui/                   # Real-time monitoring interface
+│   ├── realtime.py       # Real-time execution monitoring
+│   ├── db.py            # Database operations
+│   └── components/      # UI components
+├── config.yaml           # Main configuration
+├── agents.yaml           # Agent configurations
+├── docker/               # Containerization
+├── docs/                 # Documentation
+└── examples/             # Usage examples
+```
+
+Key Components:
+- **[Workflow Planner](praisonai/workflow_planner.py)** - Core logic for planning agent workflows
+- **[Agents Generator](praisonai/agents_generator.py)** - Creates and manages agent instances
+- **[Realtime Monitoring](ui/realtime.py)** - Tracks execution with:
+  - SQLite persistence for state tracking
+  - Chainlit integration for visual monitoring
+  - Event handlers for conversation updates
+- **[API Endpoints](backend/api.py)** - REST interface for managing workflows
+- **[Configuration](config.yaml)** - Centralized project configuration
+
 ## Using Python Code
+
+### Research Analyst Agent
+```python
+from praisonai import PraisonAI
+
+agent = PraisonAI(
+    agents_config="docs/agents/research-analyst.mdx",
+    framework="praisonai"
+)
+
+result = agent.start({
+    "urls": ["https://example.com"],
+    "topic": "Your research topic"
+})
+```
+
+### Key Features:
+- Web scraping with CSS selector support
+- AI-powered text analysis via OpenRouter
+- Persistent result storage in Supabase
+- Built-in error handling and retries
+- Complete test coverage (pytest)
+- Example implementation (examples/research_analyst_demo.py)
+
+### Requirements:
+```bash
+pip install beautifulsoup4 requests openai supabase python-dotenv pytest
+```
 
 Light weight package dedicated for coding:
 ```bash
@@ -415,8 +475,8 @@ Create AI agents with sequential prompt chaining for complex workflows.
 ```mermaid
 flowchart LR
     In[In] --> LLM1[LLM Call 1] --> Gate{Gate}
-    Gate -->|Pass| LLM2[LLM Call 2] -->|Output 2| LLM3[LLM Call 3] --> Out[Out]
-    Gate -->|Fail| Exit[Exit]
+    Gate --> |Pass| LLM2[LLM Call 2] --> |Output 2| LLM3[LLM Call 3] --> Out[Out]
+    Gate --> |Fail| Exit[Exit]
     
     style In fill:#8B0000,color:#fff
     style LLM1 fill:#2E8B57,color:#fff
@@ -433,8 +493,8 @@ Create AI agents that can generate and optimize solutions through iterative feed
 ```mermaid
 flowchart LR
     In[In] --> Generator[LLM Call Generator] 
-    Generator -->|SOLUTION| Evaluator[LLM Call Evaluator] -->|ACCEPTED| Out[Out]
-    Evaluator -->|REJECTED + FEEDBACK| Generator
+    Generator --> |SOLUTION| Evaluator[LLM Call Evaluator] --> |ACCEPTED| Out[Out]
+    Evaluator --> |REJECTED + FEEDBACK| Generator
     
     style In fill:#8B0000,color:#fff
     style Generator fill:#2E8B57,color:#fff
@@ -499,92 +559,58 @@ roles:
     role: Screenwriter
     tasks:
       scriptwriting_task:
-        description: "Develop scripts with compelling characters and dialogue about {topic}."
-        expected_output: "Complete script ready for production."
+        description: "Write a script about {topic}"
+        expected_output: "Complete script with dialogue"
 ```
 
-*To run the playbook:*
+<Note>
+You can automatically create `agents.yaml` file using
 ```bash
-praisonai agents.yaml
+praisonai --init "your task description"
 ```
+</Note>
 
 ## Use 100+ Models
 
-- https://docs.praison.ai/models/
-<div align="center">
-  <a href="https://docs.praison.ai">
-    <p align="center">
-      <img src="https://img.shields.io/badge/📚_Documentation-Visit_docs.praison.ai-blue?style=for-the-badge&logo=bookstack&logoColor=white" alt="Documentation" />
-    </p>
-  </a>
-</div>
+PraisonAI supports all major LLM providers:
+- OpenAI (GPT-4, GPT-3.5)
+- Anthropic (Claude)
+- Google (Gemini)
+- Groq (Llama, Mixtral)
+- Ollama (local models)
+- And many more...
+
+See full list in [Models Documentation](https://docs.praison.ai/models)
 
 ## Development:
 
-Below is used for development only.
-
-### Using uv
 ```bash
-# Install uv if you haven't already
-pip install uv
-
-# Install from requirements
-uv pip install -r pyproject.toml
+git clone https://github.com/MervinPraison/PraisonAI.git
+cd PraisonAI
+pip install -e .
+```
 
 # Install with extras
-uv pip install -r pyproject.toml --extra code
-uv pip install -r pyproject.toml --extra "crewai,autogen"
+
+```bash
+pip install "praisonai[ui,crewai,autogen]"
 ```
 
 ## Contributing
 
-- Fork on GitHub: Use the "Fork" button on the repository page.
-- Clone your fork: `git clone https://github.com/yourusername/praisonAI.git`
-- Create a branch: `git checkout -b new-feature`
-- Make changes and commit: `git commit -am "Add some feature"`
-- Push to your fork: `git push origin new-feature`
-- Submit a pull request via GitHub's web interface.
-- Await feedback from project maintainers.
+We welcome contributions! Please see our [Contributing Guide](https://docs.praison.ai/contributing) for details.
 
 ## Other Features
 
-- 🔄 Use CrewAI or AutoGen Framework
-- 💻 Chat with ENTIRE Codebase
-- 🎨 Interactive UIs
-- 📄 YAML-based Configuration
-- 🛠️ Custom Tool Integration
-- 🔍 Internet Search Capability (using Crawl4AI and Tavily)
-- 🖼️ Vision Language Model (VLM) Support
-- 🎙️ Real-time Voice Interaction
+- **Self Reflection**: Agents can evaluate and improve their own outputs
+- **Multi-Modal**: Support for text, image, and audio processing
+- **Custom Tools**: Easily add your own tools and integrations
+- **Workflow Visualization**: Built-in visualization of agent workflows
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=MervinPraison/PraisonAI&type=Date)](https://docs.praison.ai)
+[![Star History Chart](https://api.star-history.com/svg?repos=MervinPraison/PraisonAI&type=Date)](https://star-history.com/#MervinPraison/PraisonAI&Date)
 
 ## Video Tutorials
 
-| Topic | Video |
-|-------|--------|
-| AI Agents with Self Reflection | [![Self Reflection](https://img.youtube.com/vi/vLXobEN2Vc8/0.jpg)](https://www.youtube.com/watch?v=vLXobEN2Vc8) |
-| Reasoning Data Generating Agent | [![Reasoning Data](https://img.youtube.com/vi/fUT332Y2zA8/0.jpg)](https://www.youtube.com/watch?v=fUT332Y2zA8) |
-| AI Agents with Reasoning | [![Reasoning](https://img.youtube.com/vi/KNDVWGN3TpM/0.jpg)](https://www.youtube.com/watch?v=KNDVWGN3TpM) |
-| Multimodal AI Agents | [![Multimodal](https://img.youtube.com/vi/hjAWmUT1qqY/0.jpg)](https://www.youtube.com/watch?v=hjAWmUT1qqY) |
-| AI Agents Workflow | [![Workflow](https://img.youtube.com/vi/yWTH44QPl2A/0.jpg)](https://www.youtube.com/watch?v=yWTH44QPl2A) |
-| Async AI Agents | [![Async](https://img.youtube.com/vi/VhVQfgo00LE/0.jpg)](https://www.youtube.com/watch?v=VhVQfgo00LE) |
-| Mini AI Agents | [![Mini](https://img.youtube.com/vi/OkvYp5aAGSg/0.jpg)](https://www.youtube.com/watch?v=OkvYp5aAGSg) |
-| AI Agents with Memory | [![Memory](https://img.youtube.com/vi/1hVfVxvPnnQ/0.jpg)](https://www.youtube.com/watch?v=1hVfVxvPnnQ) |
-| Repetitive Agents | [![Repetitive](https://img.youtube.com/vi/dAYGxsjDOPg/0.jpg)](https://www.youtube.com/watch?v=dAYGxsjDOPg) |
-| Introduction | [![Introduction](https://img.youtube.com/vi/Fn1lQjC0GO0/0.jpg)](https://www.youtube.com/watch?v=Fn1lQjC0GO0) |
-| Tools Overview | [![Tools Overview](https://img.youtube.com/vi/XaQRgRpV7jo/0.jpg)](https://www.youtube.com/watch?v=XaQRgRpV7jo) |
-| Custom Tools | [![Custom Tools](https://img.youtube.com/vi/JSU2Rndh06c/0.jpg)](https://www.youtube.com/watch?v=JSU2Rndh06c) |
-| Firecrawl Integration | [![Firecrawl](https://img.youtube.com/vi/UoqUDcLcOYo/0.jpg)](https://www.youtube.com/watch?v=UoqUDcLcOYo) |
-| User Interface | [![UI](https://img.youtube.com/vi/tg-ZjNl3OCg/0.jpg)](https://www.youtube.com/watch?v=tg-ZjNl3OCg) |
-| Crawl4AI Integration | [![Crawl4AI](https://img.youtube.com/vi/KAvuVUh0XU8/0.jpg)](https://www.youtube.com/watch?v=KAvuVUh0XU8) |
-| Chat Interface | [![Chat](https://img.youtube.com/vi/sw3uDqn2h1Y/0.jpg)](https://www.youtube.com/watch?v=sw3uDqn2h1Y) |
-| Code Interface | [![Code](https://img.youtube.com/vi/_5jQayO-MQY/0.jpg)](https://www.youtube.com/watch?v=_5jQayO-MQY) |
-| Mem0 Integration | [![Mem0](https://img.youtube.com/vi/KIGSgRxf1cY/0.jpg)](https://www.youtube.com/watch?v=KIGSgRxf1cY) |
-| Training | [![Training](https://img.youtube.com/vi/aLawE8kwCrI/0.jpg)](https://www.youtube.com/watch?v=aLawE8kwCrI) |
-| Realtime Voice Interface | [![Realtime](https://img.youtube.com/vi/frRHfevTCSw/0.jpg)](https://www.youtube.com/watch?v=frRHfevTCSw) |
-| Call Interface | [![Call](https://img.youtube.com/vi/m1cwrUG2iAk/0.jpg)](https://www.youtube.com/watch?v=m1cwrUG2iAk) |
-| Reasoning Extract Agents | [![Reasoning Extract](https://img.youtube.com/vi/2PPamsADjJA/0.jpg)](https://www.youtube.com/watch?v=2PPamsADjJA) |
-
+Coming soon! Check our [YouTube channel](https://youtube.com/@praisonai) for updates.

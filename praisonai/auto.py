@@ -1,7 +1,7 @@
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import Dict, List, Optional
-import instructor
+# import instructor
 import os
 import json
 import yaml

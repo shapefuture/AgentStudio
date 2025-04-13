@@ -1,0 +1,83 @@
+# Task definitions and keyword mappings for analyze_project_brief function
+
+default_tasks:
+  - id: market_analysis
+    name: Market Analysis
+    description: Analyze market trends and opportunities
+    agent_type: market_analyst
+  - id: product_design
+    name: Product Design
+    description: Design the product based on market analysis
+    agent_type: product_designer
+
+keyword_tasks:
+  mobile_app_development:
+    keywords: ['mobile', 'app', 'ios', 'android', 'smartphone']
+    task:
+      id: mobile_dev
+      name: Mobile App Development
+      description: Develop mobile applications for iOS and Android
+      agent_type: developer
+  ai_model_development:
+    keywords: ['ai', 'machine learning', 'ml', 'artificial intelligence', 'neural', 'deep learning']
+    task:
+      id: ai_model
+      name: AI Model Development
+      description: Develop and train AI/ML models
+      agent_type: developer
+  data_analytics_setup:
+    keywords: ['analytics', 'data', 'dashboard', 'metrics', 'kpi', 'reporting']
+    task:
+      id: data_analytics
+      name: Data Analytics Setup
+      description: Set up data analytics and reporting
+      agent_type: developer
+  blockchain_integration:
+    keywords: ['blockchain', 'web3', 'crypto', 'token', 'nft', 'defi']
+    task:
+      id: blockchain_dev
+      name: Blockchain Integration
+      description: Develop blockchain components and smart contracts
+      agent_type: developer
+  ar_vr_development:
+    keywords: ['ar', 'vr', 'augmented reality', 'virtual reality', 'metaverse']
+    task:
+      id: ar_vr_dev
+      name: AR/VR Development
+      description: Develop augmented or virtual reality experiences
+      agent_type: developer
+  api_integrations:
+    keywords: ['api', 'integration', 'third-party', 'external service']
+    task:
+      id: api_integration
+      name: API Integrations
+      description: Integrate with third-party APIs and services
+      agent_type: developer
+
+dev_tasks:
+  - id: frontend_dev
+    name: Frontend Development
+    description: Develop the user interface
+    agent_type: developer
+  - id: backend_dev
+    name: Backend Development
+    description: Develop the server-side logic
+    agent_type: developer
+  - id: database_design
+    name: Database Design
+    description: Design and implement the database schema
+    agent_type: developer
+
+final_tasks:
+  - id: testing
+    name: Testing
+    description: Test the product for bugs and usability issues
+    agent_type: tester
+  - id: deployment
+    name: Deployment
+    description: Deploy the product to production
+    agent_type: developer
+  - id: marketing
+    name: Marketing
+    description: Create and execute marketing campaigns
+    agent_type: marketer
